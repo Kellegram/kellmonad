@@ -2,7 +2,7 @@
 
 ## Requirements
 
-    pacman -S xmonad xmonad-contrib xmobar xdotool
+    pacman -S xmonad xmonad-contrib xmobar xdotool picom nitrogen
 
 
 ## Things to change
