@@ -2,7 +2,7 @@
 
 ## Requirements
 
-    pacman -S xmonad xmonad-contrib xmobar xdotool picom nitrogen
+    pacman -S xmonad xmonad-contrib xmobar xdotool picom nitrogen flameshot
 
 
 ## Things to change
@@ -18,3 +18,6 @@
 - Remove, change or add workspaces here  
 ![](https://i.imgur.com/G6lqws9.png)
 
+
+## Config location
+In my setup, my .xmobarrc is located in ~/.xmobarrc and xmonad.hs is located in ~/.xmonad/xmonad.hs 
