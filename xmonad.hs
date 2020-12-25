@@ -235,7 +235,7 @@ mySpacingNoBorder :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayo
 mySpacingNoBorder i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
 -- Override the color scheme for tabs
-myTabColors = def { fontName            = "xft:Hack Nerd Font:bold:size=14:antialias=true:hinting=true"
+myTabColors = def { fontName            = myFont
                   , activeColor         = gruvBlue
                   , inactiveColor       = gruvGray
                   , activeBorderColor   = gruvBlue
