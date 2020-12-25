@@ -357,7 +357,7 @@ myAppGrid = [ ("Firefox", "firefox")
             , ("Geary", "geary")
             , ("Gimp", "gimp")
             , ("OBS", "obs")
-            , ("PCManFM", "pcmanfm")
+            , ("Files", "dolphin")
             ]
 
 -----------------------------------------------------------------------------------------------------------
@@ -376,7 +376,7 @@ treeselectAction a = TS.treeselectAction a
        ]
    , Node (TS.TSNode "Test" "test" (return ()))
        [ Node (TS.TSNode "Test1" "Test1 desc" (spawn "code")) []
-       , Node (TS.TSNode "Test2" "Test2 desc" (spawn "pcmanfm")) []
+       , Node (TS.TSNode "Test2" "Test2 desc" (spawn "dolphin")) []
        ]
    ]
 
