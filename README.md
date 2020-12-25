@@ -20,4 +20,4 @@
 
 
 ## Config location
-In my setup, my .xmobarrc is located in ~/.xmobarrc and xmonad.hs is located in ~/.xmonad/xmonad.hs 
+In my setup, my .xmobarrc is located in ~/.xmobarrc, xmonad.hs is located in ~/.xmonad/xmonad.hs and alacritty.yml is in .config/alacritty/alacritty.yml 
