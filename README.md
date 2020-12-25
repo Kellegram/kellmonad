@@ -2,7 +2,7 @@
 
 ## Requirements
 
-    pacman -S xmonad xmonad-contrib xmobar xdotool picom nitrogen flameshot
+    pacman -S xmonad xmonad-contrib xmobar xdotool picom nitrogen flameshot dmenu alacritty 
 
 
 ## Things to change
