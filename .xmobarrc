@@ -59,7 +59,7 @@ Config {
                              , "--high"     , "#fb4934"
                              ] 10
         -- battery monitor
-        , Run Battery        [ "--template" , "<fc=#98971a>:</fc><acstatus> <fc=#fabd2f><watts>W</fc>"
+        , Run Battery        [ "--template" , "<fc=#98971a>:</fc><acstatus> <fc=#fabd2f><watts>W </fc>"
                              , "--Low"      , "15"        -- units: %
                              , "--High"     , "40"        -- units: %
                              , "--low"      , "#fb4934"
