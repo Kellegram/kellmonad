@@ -2,7 +2,7 @@
 
 ## Requirements
 
-    pacman -S xmonad xmonad-contrib xmobar xdotool picom nitrogen flameshot dmenu alacritty dolphin
+    pacman -S xmonad xmonad-contrib xmobar xdotool nerd-font-hack picom nitrogen flameshot dmenu alacritty dolphin
 
 
 ## Things to change
