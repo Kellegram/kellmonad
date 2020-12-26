@@ -1,7 +1,7 @@
 Config { 
 
    -- appearance
-     font =         "xft:Hack Nerd Font:size=12:bold:antialias=true"
+     font =         "xft:Hack Nerd Font:size=14:bold:antialias=true"
    , bgColor =      "#1d2021"
    , fgColor =      "#fbf1c7"
    , position =     Top
@@ -11,7 +11,7 @@ Config {
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = " %UnsafeStdinReader% }{ %battery% | %date% "
+   , template = " %UnsafeStdinReader% }{ | %multicpu% | %coretemp% | %battery% | %date% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -33,7 +33,7 @@ Config {
                              ] 10
         
         -- cpu activity monitor
-        , Run MultiCpu       [ "--template" , "Cpu: <total0>%|<total1>%"
+        , Run MultiCpu       [ "--template" , ": <total0>%|<total1>%"
                              , "--Low"      , "50"         -- units: %
                              , "--High"     , "85"         -- units: %
                              , "--low"      , "#b8bb26"
@@ -42,7 +42,7 @@ Config {
                              ] 10
 
         -- cpu core temperature monitor
-        , Run CoreTemp       [ "--template" , "Temp: <core0>°C|<core1>°C"
+        , Run CoreTemp       [ "--template" , "<core0>°C_<core1>°C"
                              , "--Low"      , "70"        -- units: °C
                              , "--High"     , "80"        -- units: °C
                              , "--low"      , "#b8bb26"
@@ -59,16 +59,16 @@ Config {
                              , "--high"     , "#fb4934"
                              ] 10
         -- battery monitor
-        , Run Battery        [ "--template" , "Batt: <acstatus>"
+        , Run Battery        [ "--template" , "<fc=#98971a>:</fc><acstatus> <fc=#fabd2f><watts>W</fc>"
                              , "--Low"      , "15"        -- units: %
-                             , "--High"     , "60"        -- units: %
-                             , "--low"      , "darkred"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkgreen"
+                             , "--High"     , "40"        -- units: %
+                             , "--low"      , "#fb4934"
+                             , "--normal"   , "#d65d0e"
+                             , "--high"     , "#98971a"
 
                              , "--" -- battery specific options
                                        -- discharging status
-                                       , "-o"	, "<left>% (<timeleft>)"
+                                       , "-o"	, "<left>%"
                                        -- AC "on" status
                                        , "-O"	, "<fc=#dAA520>Charging</fc>"
                                        -- charged status
@@ -77,7 +77,7 @@ Config {
 
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#8ec07c>%F (%a) %T</fc>" "date" 10
+        , Run Date           "<fc=#d3869b>%d %b %Y (%a) %T</fc>" "date" 10
         , Run UnsafeStdinReader
         ]
    }                                                                                                                                                  
