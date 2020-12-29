@@ -1,0 +1,86 @@
+Config { 
+
+   -- appearance
+     font =         "xft:Hack Nerd Font:size=15:bold:antialias=true"
+   , bgColor =      "#1d2021"
+   , fgColor =      "#fbf1c7"
+   , position =     Top
+   , border =       BottomB
+   , borderColor =  "#1d2021"
+
+   -- layout
+   , sepChar =  "%"   -- delineator between plugin names and straight text
+   , alignSep = "}{"  -- separator between left-right alignment
+   , template = " %UnsafeStdinReader% }{ | %multicpu% | %coretemp% | %battery% | %date%|%trayerpad%"
+
+   -- general behavior
+   , lowerOnStart =     True    -- send to bottom of window stack on start
+   , hideOnStart =      False   -- start with window unmapped (hidden)
+   , allDesktops =      True    -- show on all desktops
+   , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+   , pickBroadest =     False   -- choose widest display (multi-monitor)
+   , persistent =       True    -- enable/disable hiding (True = disabled)
+   , iconRoot = "."
+   -- plugins --------------------------------------------------------------------
+
+   , commands = 
+        -- network activity monitor (dynamic interface resolution)
+        [ Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
+                             , "--Low"      , "1000"       -- units: B/s
+                             , "--High"     , "5000"       -- units: B/s
+                             , "--low"      , "#b8bb26"
+                             , "--normal"   , "#fabd2f"
+                             , "--high"     , "#fb4934"
+                             ] 10
+        
+        -- cpu activity monitor
+        , Run MultiCpu       [ "--template" , " <total0>%<total1>%"
+                             , "--Low"      , "50"         -- units: %
+                             , "--High"     , "85"         -- units: %
+                             , "--low"      , "#b8bb26"
+                             , "--normal"   , "#fe8019"
+                             , "--high"     , "#fb4934"
+                             ] 10
+
+        -- cpu core temperature monitor
+        , Run CoreTemp       [ "--template" , "<core0><core1>"
+                             , "--Low"      , "70"        -- units: °C
+                             , "--High"     , "80"        -- units: °C
+                             , "--low"      , "#b8bb26"
+                             , "--normal"   , "#fe8019"
+                             , "--high"     , "#fb4934"
+                             ] 50
+                          
+        -- memory usage monitor
+        , Run Memory         [ "--template" ,"Mem: <usedratio>%"
+                             , "--Low"      , "40"        -- units: %
+                             , "--High"     , "90"        -- units: %
+                             , "--low"      , "#b8bb26"
+                             , "--normal"   , "#fe8019"
+                             , "--high"     , "#fb4934"
+                             ] 10
+        -- battery monitor
+        , Run Battery        [ "--template" , ":<acstatus> <fc=#fabd2f><watts>W </fc>"
+                             , "--Low"      , "15"        -- units: %
+                             , "--High"     , "40"        -- units: %
+                             , "--low"      , "#fb4934"
+                             , "--normal"   , "#d65d0e"
+                             , "--high"     , "#98971a"
+
+                             , "--" -- battery specific options
+                                       -- discharging status
+                                       , "-o"	, "<left>%"
+                                       -- AC "on" status
+                                       , "-O"	, "<fc=#dAA520>Charging</fc>"
+                                       -- charged status
+                                       , "-i"	, "<fc=#006000>Charged</fc>"
+                             ] 50
+
+        -- time and date indicator 
+        --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
+        , Run Date           "<fc=#d3869b>%d %b %Y (%a) %T</fc>" "date" 10
+        -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
+        , Run Com            "/home/kellegram/.config/xmobar/trayer-padding-icon.sh" ["panel"] "trayerpad" 10
+        , Run UnsafeStdinReader
+        ]
+   }                                                                                                                                                  

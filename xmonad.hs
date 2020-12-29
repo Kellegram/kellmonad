@@ -60,7 +60,6 @@ import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBO
 import XMonad.Layout.Magnifier
 import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
-import XMonad.Layout.ShowWName
 import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.Fullscreen    -- fullscreen mode
@@ -92,7 +91,7 @@ myClickJustFocuses = False
 
 -- Set width of the window borders
 myBorderWidth :: Dimension
-myBorderWidth = 8
+myBorderWidth = 6
 
 -- Set mod key to Super
 myModMask :: KeyMask
@@ -108,6 +107,10 @@ myBrowser = "firefox "
 
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
+
+-- For clarity
+myRestartString :: String
+myRestartString = "xmonad --recompile; pkill xmobar; xmonad --restart"
 
 
 -----------------------------------------------------------------------------------------------------------
@@ -144,8 +147,7 @@ myStartupHook = do
         spawnOnce "nitrogen --restore &" --restore wallpaper/s
         spawnOnce "picom --experimental-backends" --start up picom, experimental-backends will eventually phase out old backends
         spawnOnce "flameshot &"
-
-
+        spawnOnce "trayer --edge top --align right --widthtype request --SetDockType true --SetPartialStrut true --expand true --transparent false --tint 0x282c34  --height 28 &"
 
 -----------------------------------------------------------------------------------------------------------
 -- Keyboard bindings                                                                                     --
@@ -158,7 +160,7 @@ myKeys =
         ,  ("M-r", spawn "dmenu_run")                                             -- launch dmenu
         ,  ("M-S-s", spawn "flameshot gui")                                       -- Screenshot with Flameshot gui
         -- Xmonad
-        ,  ("C-m r", spawn "xmonad --recompile; pkill xmobar; xmonad --restart")  -- Recompile and restart xmonad (kills xmobar too)
+        ,  ("C-m r", spawn myRestartString)                                       -- Recompile and restart xmonad (kills xmobar too)
         ,  ("C-m q", io (exitWith ExitSuccess))                                   -- Quit xmonad
         -- Kill window/s
         ,  ("M-q", kill1)                                                         -- Close focused window
@@ -314,7 +316,7 @@ myManageHook =
 
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount
-    where fadeAmount = 1.0
+    where fadeAmount = 0.95
 
 
 
@@ -499,7 +501,7 @@ myWorkspaces = clickable . (map xmobarEscape)
 
 main :: IO ()
 main = do
-  xbar <- spawnPipe "xmobar" -- Pipe xmobar for use with the log
+  xbar <- spawnPipe "xmobar $HOME/.config/xmobar/xmobarrc"
   
   xmonad $ ewmh desktopConfig { 
       terminal            = myTerminal
@@ -513,14 +515,15 @@ main = do
     , mouseBindings       = myMouseBindings
     , startupHook         = myStartupHook
     , layoutHook          = myLayout
-    , manageHook          = myManageHook
+    , handleEventHook     = docksEventHook
+    , manageHook          = myManageHook  <+> manageDocks
     , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
                 { ppOutput = hPutStrLn xbar
                 , ppCurrent = xmobarColor gruvAqua "" . wrap "[" "]" -- Current workspace in xmobar
                 , ppVisible = xmobarColor gruvAqua ""                -- Visible but not current workspace
                 , ppHidden = xmobarColor gruvYellow "" . wrap ":" ":"   -- Hidden workspaces in xmobar
                 , ppHiddenNoWindows = xmobarColor gruvGray ""        -- Hidden workspaces (no windows)
-                , ppTitle = xmobarColor gruvBlue "" . shorten 60     -- Title of active window in xmobar
+                , ppTitle = xmobarColor gruvBlue "" . shorten 30     -- Title of active window in xmobar
                 , ppUrgent = xmobarColor gruvRed "" . wrap "!" "!"  -- Urgent workspace
                 , ppSep     = " | "
                 , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
