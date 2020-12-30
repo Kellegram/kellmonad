@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=oomox-Kelle-gruvbox-dark-compact
+Comment=A Material Design theme
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=oomox-Kelle-gruvbox-dark-compact
+MetacityTheme=oomox-Kelle-gruvbox-dark-compact
+IconTheme=Adwaita
+CursorTheme=Adwaita
+CursorSize=24
