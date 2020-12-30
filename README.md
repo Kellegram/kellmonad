@@ -17,7 +17,3 @@
 
 - Remove, change or add workspaces here  
 ![](https://i.imgur.com/G6lqws9.png)
-
-
-## Config location
-In my setup, my .xmobarrc is located in ~/.xmobarrc, xmonad.hs is located in ~/.xmonad/xmonad.hs and alacritty.yml is in .config/alacritty/alacritty.yml 
