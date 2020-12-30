@@ -143,11 +143,13 @@ gruvGray = "#a89984"
 -----------------------------------------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-        spawnOnce "xrandr --output eDP-1 --scale 0.75x0.75"
+        spawnOnce "xrdb -merge ~/.Xresources"
         spawnOnce "nitrogen --restore &" --restore wallpaper/s
         spawnOnce "picom --experimental-backends" --start up picom, experimental-backends will eventually phase out old backends
+        spawnOnce "nm-applet &"
+        spawnOnce "volumeicon &"
         spawnOnce "flameshot &"
-        spawnOnce "trayer --edge top --align right --widthtype request --SetDockType true --SetPartialStrut true --expand true --transparent false --tint 0x282c34  --height 28 &"
+        spawnOnce "trayer --edge top --align right --widthtype request --SetDockType true --SetPartialStrut true --expand true --padding 0 --transparent false --tint 0x282c34  --height 28 &"
 
 -----------------------------------------------------------------------------------------------------------
 -- Keyboard bindings                                                                                     --
@@ -503,7 +505,7 @@ main :: IO ()
 main = do
   xbar <- spawnPipe "xmobar $HOME/.config/xmobar/xmobarrc"
   
-  xmonad $ ewmh desktopConfig { 
+  xmonad $ ewmh def { 
       terminal            = myTerminal
     , modMask             = myModMask
     , borderWidth         = myBorderWidth

@@ -11,7 +11,7 @@ Config {
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = " %UnsafeStdinReader% }{ | %multicpu% | %coretemp% | %battery% | %date%|%trayerpad%"
+   , template = " %UnsafeStdinReader% }{ | %multicpu% | %coretemp% | %battery% | %date% |%trayerpad% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -20,7 +20,6 @@ Config {
    , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
    , pickBroadest =     False   -- choose widest display (multi-monitor)
    , persistent =       True    -- enable/disable hiding (True = disabled)
-   , iconRoot = "."
    -- plugins --------------------------------------------------------------------
 
    , commands = 
@@ -80,7 +79,7 @@ Config {
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
         , Run Date           "<fc=#d3869b>%d %b %Y (%a) %T</fc>" "date" 10
         -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
-        , Run Com            "/home/kellegram/.config/xmobar/trayer-padding-icon.sh" ["panel"] "trayerpad" 10
+        , Run Com "/bin/sh" [ "-c", "/home/kellegram/.config/xmobar/trayer-padding-icon.sh" ] "trayerpad" 10       
         , Run UnsafeStdinReader
         ]
    }                                                                                                                                                  
