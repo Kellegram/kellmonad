@@ -1,7 +1,7 @@
 Config { 
 
    -- appearance
-     font =         "xft:Hack Nerd Font:size=15:bold:antialias=true"
+     font =         "xft:Hack Nerd Font:size=13:bold:antialias=true"
    , bgColor =      "#1d2021"
    , fgColor =      "#fbf1c7"
    , position =     Top
