@@ -143,14 +143,13 @@ gruvGray = "#a89984"
 -----------------------------------------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-        spawnOnce "xrdb -merge ~/.Xresources"
-        spawnOnce "nitrogen --restore &" --restore wallpaper/s
-        spawnOnce "picom --experimental-backends" --start up picom, experimental-backends will eventually phase out old backends
+        spawnOnce "nitrogen --restore &" --restore wallpaper
+        spawnOnce "picom --experimental-backends &" --start up picom, experimental-backends will eventually phase out old backends
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
+        spawnOnce "blueman-tray &"
+        spawnOnce "trayer --edge top --align right --widthtype request --SetDockType true --SetPartialStrut true --expand true --padding 0 --transparent true --alpha 0 --tint 0x1d2021  --height 28 &"
         spawnOnce "flameshot &"
-        spawnOnce "trayer --edge top --align right --widthtype request --SetDockType true --SetPartialStrut true --expand true --padding 0 --transparent false --tint 0x282c34  --height 28 &"
-
 -----------------------------------------------------------------------------------------------------------
 -- Keyboard bindings                                                                                     --
 -----------------------------------------------------------------------------------------------------------
@@ -199,8 +198,8 @@ myKeys =
         , ("<XF86AudioPrev>", spawn (myTerminal ++ "mocp --previous"))
         , ("<XF86AudioNext>", spawn (myTerminal ++ "mocp --next"))
         , ("<XF86AudioMute>",   spawn "amixer set Master toggle")
-        , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
-        , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
+        , ("<XF86AudioLowerVolume>", spawn "amixer set Master 2%- unmute")
+        , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 2%+ unmute")
         , ("<XF86MonBrightnessUp>", spawn "light -A 5")
         , ("<XF86MonBrightnessDown>", spawn "light -U 5")
         , ("<Print>", spawn "flameshot full")
@@ -318,7 +317,7 @@ myManageHook =
 
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount
-    where fadeAmount = 0.95
+    where fadeAmount = 0.98
 
 
 
@@ -505,7 +504,7 @@ main :: IO ()
 main = do
   xbar <- spawnPipe "xmobar $HOME/.config/xmobar/xmobarrc"
   
-  xmonad $ ewmh def { 
+  xmonad $ ewmh desktopConfig { 
       terminal            = myTerminal
     , modMask             = myModMask
     , borderWidth         = myBorderWidth
@@ -525,7 +524,7 @@ main = do
                 , ppVisible = xmobarColor gruvAqua ""                -- Visible but not current workspace
                 , ppHidden = xmobarColor gruvYellow "" . wrap ":" ":"   -- Hidden workspaces in xmobar
                 , ppHiddenNoWindows = xmobarColor gruvGray ""        -- Hidden workspaces (no windows)
-                , ppTitle = xmobarColor gruvBlue "" . shorten 30     -- Title of active window in xmobar
+                , ppTitle = xmobarColor gruvBlue "" . shorten 50     -- Title of active window in xmobar
                 , ppUrgent = xmobarColor gruvRed "" . wrap "!" "!"  -- Urgent workspace
                 , ppSep     = " | "
                 , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
