@@ -1,19 +1,9 @@
 # Kellegram's Xmonad and Xmobar config
 
 ## Requirements
+### Xmonad and related tools
 
-    pacman -S xmonad xmonad-contrib xmobar xdotool nerd-font-hack picom nitrogen flameshot dmenu alacritty dolphin
+    pacman -S xorg xmonad xmonad-contrib xmobar picom nitrogen dmenu    
 
-
-## Things to change
-- A font of your choice, set it in "myFont", there are a few places where a different variation is hardcoded so check
-![](https://i.imgur.com/VPNVtAD.png)
-
-- Change the startup apps or make sure you have these!! Do not use xinit or similar, let xmonad handle those.
-![Startup apps. Important!!](https://i.imgur.com/SD3tiag.png)
-
-- Change the terminal to the one you want to use!  
-![](https://i.imgur.com/V9lrg49.png)
-
-- Remove, change or add workspaces here  
-![](https://i.imgur.com/G6lqws9.png)
+### Config related extras
+    pacman -S lightdm lightdm-gtk-greeter nerd-font-hack xdotool alacritty pavucontrol fish gtk3 lxappearance-gtk3 obs tar nautilus vlc trayer network-manager-applet blueman flameshot alsa-mixer
