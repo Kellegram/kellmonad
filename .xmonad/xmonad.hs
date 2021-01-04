@@ -14,6 +14,7 @@ import qualified XMonad.StackSet as W
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
+import XMonad.Actions.CycleWS
 import XMonad.Actions.WithAll (killAll, sinkAll)
 import qualified XMonad.Actions.Search as S
 import qualified XMonad.Actions.TreeSelect as TS
@@ -24,6 +25,7 @@ import qualified Data.Map as M
 import Data.Monoid
 import Data.Char (isSpace, toUpper)
 import Data.Tree
+import Data.Maybe (isJust)
 
 -- Graphics imports --------------------------------------------
 import Graphics.X11.ExtraTypes.XF86
@@ -68,6 +70,7 @@ import XMonad.Layout.Fullscreen    -- fullscreen mode
 import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run (spawnPipe)
+import XMonad.Util.NamedScratchpad
 
 
 -----------------------------------------------------------------------------------------------------------
@@ -75,11 +78,11 @@ import XMonad.Util.Run (spawnPipe)
 -----------------------------------------------------------------------------------------------------------
 -- Choose the font
 myFont :: String
-myFont = "xft:Hack Nerd Font:bold:size=16:antialias=true:hinting=true"
+myFont = "xft:Hack Nerd Font Mono:bold:size=16:antialias=true:hinting=true"
 
 -- Choose which terminal does Xmonad launch
 myTerminal :: String
-myTerminal = "alacritty"
+myTerminal = "alacritty "
 
 -- Set the focus to follow mouse
 myFocusFollowsMouse :: Bool
@@ -143,7 +146,7 @@ gruvGray = "#a89984"
 -----------------------------------------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-        spawnOnce "nitrogen --restore &" --restore wallpaper
+        spawnOnce "feh --bg-max --randomize ~/Pictures/Wallpapers/* &" --restore wallpaper
         spawnOnce "picom --experimental-backends &" --start up picom, experimental-backends will eventually phase out old backends
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
@@ -158,7 +161,7 @@ myKeys :: [(String, X ())]
 myKeys =
         -- Basic launching
         [  ("M-t", spawn myTerminal)                                              -- launch a terminal
-        ,  ("M-r", spawn "dmenu_run")                                             -- launch dmenu
+        ,  ("M-p", spawn "rofi -show-icons -modi combi -show combi -combi-modi run,drun")                                             -- launch dmenu
         ,  ("M-S-s", spawn "flameshot gui")                                       -- Screenshot with Flameshot gui
         -- Xmonad
         ,  ("C-m r", spawn myRestartString)                                       -- Recompile and restart xmonad (kills xmobar too)
@@ -193,6 +196,8 @@ myKeys =
         ,  ("C-g b", bringSelected $ mygridConfig myColorizer)                    -- Bring a chosen open window
         -- Tree Select
         ,  ("M1-t", treeselectAction tsDefaultConfig)
+        -- Scratch pads
+        ,  ("M-S-u", namedScratchpadAction myScratchPads "terminal")
         -- Multimedia Keys
         , ("<XF86AudioPlay>", spawn (myTerminal ++ "mocp --play"))
         , ("<XF86AudioPrev>", spawn (myTerminal ++ "mocp --previous"))
@@ -208,6 +213,10 @@ myKeys =
         -- Append shortcuts for search prompt
         ++ [("M1-s " ++ k, S.promptSearch myXPConfigNoAutoComplete f) | (k,f) <- searchList ]
         ++ [("M1-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
+            -- The following lines are needed for named scratchpads.
+          where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
+                nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "nsp"))
+
 
 ---------------------------------------------------------------------------------------------------------
 -- Mouse bindings                                                                                      --
@@ -302,13 +311,13 @@ myLayout = avoidStruts $  T.toggleLayouts floats
 
 -- Here you can add any rules for apps that you always want to spawn in a specific way
 -- For example "className =? "Gimp" --> doFloat" will make it always Float, even in tiling layouts
-myManageHook =
-  composeAll
-    [ className =? "MPlayer" --> doFloat,
-      className =? "Gimp" --> doFloat,
-      resource =? "desktop_window" --> doIgnore,
-      resource =? "kdesktop" --> doIgnore
-    ]
+myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
+myManageHook = composeAll
+    [ className =? "MPlayer"                       --> doFloat
+    , className =? "Gimp"                          --> doFloat
+    , resource =? "desktop_window"                 --> doIgnore
+    , resource =? "kdesktop"                       --> doIgnore
+    ] <+> namedScratchpadManageHook myScratchPads
 
 
 -----------------------------------------------------------------------------------------------------------
@@ -318,6 +327,30 @@ myManageHook =
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount
     where fadeAmount = 0.98
+
+
+-----------------------------------------------------------------------------------------------------------
+-- Scratch pads                                                                                          --
+-----------------------------------------------------------------------------------------------------------
+
+myScratchPads :: [NamedScratchpad]
+myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
+                , NS "mocp" spawnMocp findMocp manageMocp
+                ]
+  where
+    spawnTerm  = myTerminal ++ " -t scratchpad"
+    findTerm   = title =? "scratchpad"
+    manageTerm = defaultFloating
+    spawnMocp  = myTerminal ++ " -n cmus 'cmus'"
+    findMocp   = resource =? "cmus"
+    manageMocp = customFloating $ W.RationalRect l t w h
+               where
+                 h = 0.9
+                 w = 0.9
+                 t = 0.95 -h
+                 l = 0.95 -w
+
+
 
 
 
@@ -479,6 +512,7 @@ myXPKeymap = M.fromList $
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 
+
 xmobarEscape :: String -> String
 xmobarEscape = concatMap doubleLts
   where
@@ -488,7 +522,7 @@ xmobarEscape = concatMap doubleLts
 myWorkspaces :: [String]
 myWorkspaces = clickable . (map xmobarEscape)
                -- $ [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
-               $ [" www ", " chat ", " dev ", " git ", " audio "]
+               $ ["www", "chat", "dev", "git", "audio"]
   where
         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
                       (i,ws) <- zip [1..9] l,
@@ -517,7 +551,7 @@ main = do
     , startupHook         = myStartupHook
     , layoutHook          = myLayout
     , handleEventHook     = docksEventHook
-    , manageHook          = myManageHook  <+> manageDocks
+    , manageHook          = ( isFullscreen --> doFullFloat ) <+> myManageHook  <+> manageDocks
     , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
                 { ppOutput = hPutStrLn xbar
                 , ppCurrent = xmobarColor gruvAqua "" . wrap "[" "]" -- Current workspace in xmobar
