@@ -2,7 +2,21 @@
 
 ## Requirements
 ### Xmonad and related tools
-https://discord.com/channels/756161295686041693/756161297095196694/795698446644281415
+sudo dnf install xmonad ghc-xmonad-contrib dmenu rofi xdotool git picom feh alacritty pavucontrol lxappearance tar nautilus flameshot
+sudo dnf instlal light network-manager-applet blueman volumeicon obs-studio cmus vlc
+sudo dnf install xdg-user-dirs xdg-utils
+sudo dnf install cabal-install ghc
+  114  sudo dnf install base-devel
+  120  cabal install xmobar --dependencies-only
+  157  sudo dnf install libXpm-devel
+  158  cabal install xmobar --flags="all_extensions"
+  159  cabal install xmobar --flags="all_extensions" --overwrite-policy=always
+
+  246  sudo dnf install vscode
+
+  280  sudo dnf install   https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+  281  sudo dnf install   https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+  307  sudo dnf install trayer
 
 
 
