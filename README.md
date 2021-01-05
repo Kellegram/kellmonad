@@ -34,6 +34,16 @@ https://rpmfusion.org/Configuration
 ### Install most of the apps I use, including some in the config
     sudo dnf install light network-manager-applet blueman volumeicon obs-studio cmus vlc xmonad ghc-xmonad-contrib dmenu rofi git pavucontrol lxappearance tar flameshot code starship kitty 
 
+### Pull the libraries needed to compile xmobar and the picom fork
+    $ sudo dnf install dbus-devel pcre-devel libGL-devel libconfig-devel uthash-devel pixman-devel xcb-util-renderutil-devel libev-devel cmake meson alsa-lib-devel libXpm-devel make automake gcc gcc-c++ kernel-devel
+    
+    $ sudo dnf grpup install "C Development Tools and Libraries" 
+    $ sudo dnf install @development-tools
+
+
+### Pull my config
+It should be put into the home directory. Remember to 'chmod +x' the trayer padding script found in ~/.config/xmobar/
+
 
 
 
