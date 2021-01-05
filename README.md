@@ -52,7 +52,21 @@ If it fails, get any extra libraries it asks for, then run this to overwrite the
 ### Pull my config
 It should be put into the home directory. Remember to 'chmod +x' the trayer padding script found in ~/.config/xmobar/
 
+### Build xmonad
+        xmonad --recompile
+        
+### Post-install reboot
+Once all is done, you should be able to reboot. You might need to add xmonad to your display manager, but it is usually picked up automatically. 
 
+## Tips on personalising the config
+Coming soon..
+
+## Useful commands
+Coming soon..
+
+
+## Troubleshooting issues
+Coming soon..
 
 
 
