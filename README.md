@@ -1,22 +1,39 @@
 # Kellegram's Xmonad and Xmobar config
 
+## Fedora cleanup
+### Remove pre-installed WMs
+    sudo dnf remove openbox qtile ratpoison awesome i3  
+### Remove picom in case it's already installed
+    sudo dnf remove picom
+
 ## Requirements
-### Xmonad and related tools
-    sudo dnf install xmonad ghc-xmonad-contrib dmenu rofi xdotool git picom feh alacritty pavucontrol lxappearance tar nautilus flameshot
-    sudo dnf instlal light network-manager-applet blueman volumeicon obs-studio cmus vlc
-    sudo dnf install xdg-user-dirs xdg-utils
-    sudo dnf install cabal-install ghc
-      114  sudo dnf install base-devel
-      120  cabal install xmobar --dependencies-only
-      157  sudo dnf install libXpm-devel
-      158  cabal install xmobar --flags="all_extensions"
-      159  cabal install xmobar --flags="all_extensions" --overwrite-policy=always
+### Add RPM Fusion repos
+https://rpmfusion.org/Configuration
 
-      246  sudo dnf install vscode
+### Install trayer
+        
 
-      280  sudo dnf install   https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-      281  sudo dnf install   https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-      307  sudo dnf install trayer
+    1. Add RPM Fusion repositories to your system
+    
+    2. Download latest rpmsphere-release rpm from
+    https://github.com/rpmsphere/noarch/tree/master/r
+
+    3. Install rpmsphere-release rpm:
+
+    # rpm -Uvh rpmsphere-release*rpm
+
+    4. Install trayer rpm package:
+
+    # dnf install trayer
+
+### Install xmonad and related programs
+    sudo dnf install cabal-install ghc xdg-user-dirs xdg-utils xmonad ghc-xmonad-contrib dmenu xdotool feh kitty nautilus
+
+
+
+### Install most of the apps I use, including some in the config
+    sudo dnf install light network-manager-applet blueman volumeicon obs-studio cmus vlc xmonad ghc-xmonad-contrib dmenu rofi git pavucontrol lxappearance tar flameshot code starship kitty 
+
 
 
 
