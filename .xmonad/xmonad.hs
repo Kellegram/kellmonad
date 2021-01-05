@@ -82,7 +82,7 @@ myFont = "xft:Hack Nerd Font Mono:bold:size=16:antialias=true:hinting=true"
 
 -- Choose which terminal does Xmonad launch
 myTerminal :: String
-myTerminal = "alacritty "
+myTerminal = "kitty "
 
 -- Set the focus to follow mouse
 myFocusFollowsMouse :: Bool
@@ -338,7 +338,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                 , NS "mocp" spawnMocp findMocp manageMocp
                 ]
   where
-    spawnTerm  = myTerminal ++ " -t scratchpad"
+    spawnTerm  = myTerminal ++ " -T=scratchpad"
     findTerm   = title =? "scratchpad"
     manageTerm = defaultFloating
     spawnMocp  = myTerminal ++ " -n cmus 'cmus'"
@@ -521,7 +521,7 @@ xmobarEscape = concatMap doubleLts
 myWorkspaces :: [String]
 myWorkspaces = clickable . (map xmobarEscape)
                -- $ [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
-               $ [" \64158 ", " \63097 ", " \63080 ", " \59173 ", " \59285 "]
+               $ [" \64158 ", " \63097 ", " \63079 ", " \59173 ", " \59285 "]
   where
         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
                       (i,ws) <- zip [1..9] l,
