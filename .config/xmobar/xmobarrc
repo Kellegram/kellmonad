@@ -1,7 +1,7 @@
 Config { 
 
    -- appearance
-     font =         "xft:Hack Nerd Font Mono:size=16:bold:antialias=true"
+     font =         "xft:Hack Nerd Font Mono:size=18:bold:antialias=true"
    , bgColor =      "#1d2021"
    , fgColor =      "#fbf1c7"
    , position =     Top
@@ -79,7 +79,7 @@ Config {
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
         , Run Date           "<fc=#d3869b>%d %b %Y (%a) %T</fc>" "date" 10
         -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
-        , Run Com "/bin/sh" [ "-c", "/home/kellegram/.config/xmobar/trayer-padding-icon.sh" ] "trayerpad" 10       
+        , Run Com "/bin/sh" [ "-c", "$HOME/.config/xmobar/trayer-padding-icon.sh" ] "trayerpad" 10       
         , Run UnsafeStdinReader
         ]
    }                                                                                                                                                  
