@@ -146,8 +146,8 @@ gruvGray = "#a89984"
 -----------------------------------------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-        spawnOnce "feh --bg-max --randomize ~/Pictures/Wallpapers/* &" --restore wallpaper
-        spawnOnce "picom --experimental-backends &" --start up picom, experimental-backends will eventually phase out old backends
+        spawnOnce "feh --bg-fill --randomize ~/Pictures/Wallpapers/* &" --restore wallpaper
+        spawnOnce "picom &" --start up picom, experimental-backends will eventually phase out old backends
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
         spawnOnce "blueman-tray &"
@@ -326,7 +326,7 @@ myManageHook = composeAll
 
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount
-    where fadeAmount = 0.98
+    where fadeAmount = 1.0
 
 
 -----------------------------------------------------------------------------------------------------------
@@ -361,8 +361,8 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
 -- Use the colorizer to set some colors for the grid
 myColorizer :: Window -> Bool -> X (String, String)
 myColorizer = colorRangeFromClassName
-                  (0xfb,0xf1,0xc7) -- lowest inactive bg
-                  (0xfb,0xf1,0xc7) -- highest inactive bg
+                  (0x1d,0x21,0x21) -- lowest inactive bg
+                  (0x1d,0x20,0x21) -- highest inactive bg
                   (0x1d,0x20,0x21) -- active bg
                   (0xfb,0xf1,0xc7) -- inactive fg
                   (0xb8,0xbb,0x26) -- active fg
@@ -390,10 +390,9 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
 
 -- Define a list of apps for the app grid, the grid will know how to draw itself, so just list them
 myAppGrid = [ ("Firefox", "firefox")
-            , ("Geary", "geary")
             , ("Gimp", "gimp")
             , ("OBS", "obs")
-            , ("Files", "dolphin")
+            , ("Files", "nautilus")
             ]
 
 -----------------------------------------------------------------------------------------------------------
@@ -522,7 +521,7 @@ xmobarEscape = concatMap doubleLts
 myWorkspaces :: [String]
 myWorkspaces = clickable . (map xmobarEscape)
                -- $ [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
-               $ ["www", "chat", "dev", "git", "audio"]
+               $ [" \64158 ", " \63097 ", " \63080 ", " \59173 ", " \59285 "]
   where
         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
                       (i,ws) <- zip [1..9] l,
