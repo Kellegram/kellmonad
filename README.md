@@ -40,6 +40,14 @@ https://rpmfusion.org/Configuration
     $ sudo dnf grpup install "C Development Tools and Libraries" 
     $ sudo dnf install @development-tools
 
+Build the forked picom found ![here](https://github.com/yshui/picom)
+
+Also build xmobar:
+
+        cabal install xmobar --flags="all_extensions"
+If it fails, get any extra libraries it asks for, then run this to overwrite the failed library:
+        
+        cabal install xmobar --flags="all_extensions" --overwrite-policy=always
 
 ### Pull my config
 It should be put into the home directory. Remember to 'chmod +x' the trayer padding script found in ~/.config/xmobar/
